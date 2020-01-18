@@ -30,6 +30,27 @@ def WriteLatch():
     cp2112.WriteLatch(devicePtr, c_byte(0xFF), mask)
   return "OK"
 
+@app.route('/I2CSend')
+def I2CSend():
+  address = int(request.args.get("address"), 16)
+  data = bytes.fromhex(request.args.get("data"))
+  length = len(data)
+
+  BufferArray = c_byte * length
+
+  dataArray = [d for d in data]
+  buffer = BufferArray(*dataArray)
+
+  ret = cp2112.WriteRequest(devicePtr, c_byte(address), byref(buffer), c_ushort(length))
+  return "Status: "+str(ret)
+
+@app.route('/I2CReceive')
+def I2CReceive():
+  address = int(request.args.get("address"), 16)
+  length = int(request.args.get("length"))
+  #TODO
+
+
 
 if __name__ == '__main__':
   refNumDevices = c_uint()
