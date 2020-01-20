@@ -48,8 +48,22 @@ def I2CSend():
 def I2CReceive():
   address = int(request.args.get("address"), 16)
   length = int(request.args.get("length"))
-  #TODO
 
+  BufferArray = c_byte * cp2112.I2C_RECEIVE_BUFFER_SIZE_INT
+  buffer = BufferArray()
+
+  status = c_byte()
+  numBytesRead = c_byte()
+
+  cp2112.ReadRequest(devicePtr, c_byte(address), c_ushort(length))
+  cp2112.ForceReadResponse(devicePtr)
+  cp2112.GetReadResponse(devicePtr, byref(status), byref(buffer), byref(numBytesRead))
+
+  value = 0
+  for i in range(length):
+    value = (value << 8) | (buffer[i] & 0xFF)
+
+  return str(value)
 
 
 if __name__ == '__main__':
