@@ -7,6 +7,7 @@ from ctypes import *
 
 class HidSmbus:
   I2C_RECEIVE_BUFFER_SIZE = c_byte(61)
+  I2C_RECEIVE_BUFFER_SIZE_INT = 61
 
   def __init__(self):
     """__init__
@@ -69,11 +70,11 @@ class HidSmbus:
     ret = self.__dll.HidSmbus_ReadRequest(refDevice, slaveAddress, numBytesToRead)
     return ret
 
-  def ForceReadRequest(self, refDevice:pointer):
-    """ForceReadRequest
+  def ForceReadResponse(self, refDevice:pointer):
+    """ForceReadResponse
     """
 
-    ret = self.__dll.HidSmbus_ForceReadRequest(refDevice, self.I2C_RECEIVE_BUFFER_SIZE)
+    ret = self.__dll.HidSmbus_ForceReadResponse(refDevice, self.I2C_RECEIVE_BUFFER_SIZE)
     return ret
 
   def GetReadResponse(self, refDevice:pointer, refStatus:pointer,  refBuffer:pointer, refNumBytesRead):
