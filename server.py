@@ -37,7 +37,6 @@ def I2CSend():
   length = len(data)
 
   BufferArray = c_byte * length
-
   dataArray = [d for d in data]
   buffer = BufferArray(*dataArray)
 
@@ -76,12 +75,8 @@ if __name__ == '__main__':
 
   # Open device
   ret = cp2112.Open(byref(devicePtr), c_uint(0), CP2112_VID, CP2112_PID)
-  print(ret)
 
-  # Turn on all GPIO port
+  # Set all GPIO to OUTPUT
   ret = cp2112.SetGpioConfig(devicePtr, c_byte(0xFF), c_byte(0x00), c_byte(0x00), c_byte(0x00))
-  print(ret)
-  ret = cp2112.WriteLatch(devicePtr, c_byte(0x00), c_byte(0xFF))
-  print(ret)
 
   app.run()

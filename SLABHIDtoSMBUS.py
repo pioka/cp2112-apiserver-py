@@ -2,8 +2,6 @@ import os
 import struct
 from ctypes import *
 
-#dll.HidSmbus_GetNumDevices.restype = c_int
-#dll.HidSmbus_GetNumDevices.argtypes = (byref(c_uint), c_ushort, c_ushort)
 
 class HidSmbus:
   I2C_RECEIVE_BUFFER_SIZE = c_byte(61)
@@ -56,7 +54,6 @@ class HidSmbus:
 
   def WriteRequest(self, refDevice:pointer, slaveAddress:c_byte, refBuffer:pointer, numBytesToWrite:c_ushort):
     """WriteRequest
-    Note:
       refBuffer: is c_byte pointer
     """
 
